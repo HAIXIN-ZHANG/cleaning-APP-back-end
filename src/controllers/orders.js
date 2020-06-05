@@ -1,4 +1,11 @@
-function addOrder(req, res){};
+const orderModel = require('../models/order');
+
+async function addOrder(req, res){
+    //TODO data from the front
+    const order = new orderModel({_id:'abc123', name:'order1'});
+    await order.save();
+    return res.json(order);
+};
 
 function getOrder(req, res){};
 
