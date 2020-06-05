@@ -2,9 +2,9 @@ const orderModel = require('../models/order');
 
 async function addOrder(req, res){
     //TODO data from the front
-    const order = new orderModel({_id:'abc123', name:'order1'});
+    const order = new orderModel({_id:'abc124', name:'order1'});
     await order.save();
-    return res.json(order);
+    return res.status(201).json(order);
 };
 
 function getOrder(req, res){};
