@@ -10,6 +10,7 @@ async function addOrder(req, res){
 function getOrder(req, res){};
 
 function getAllOrders(req, res){
+    //TODO
     res.json([{},{}]);
 };
 

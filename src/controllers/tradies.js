@@ -3,6 +3,7 @@ function addTradie(req, res){};
 function getTradie(req, res){};
 
 function getAllTradies(req, res){
+     //TODO
     res.json([{},{}]);
 };
 
