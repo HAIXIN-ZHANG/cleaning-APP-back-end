@@ -1,21 +1,28 @@
-function addTradie(req, res){};
+function addTradie(req, res) {};
 
-function getTradie(req, res){};
+function getTradie(req, res) {};
 
-function getAllTradies(req, res){
-     //TODO
-    res.json([{},{}]);
+function getAllTradies(req, res) {
+    
 };
 
-function updateTradie(req, res){};
+function updateTradie(req, res) {};
 
-function deleteTradie(req, res){};
+function deleteTradie(req, res) {};
+
+function addService(req, res) {}
+
+function updateService(req, res) {}
+
+function deleteService(req, res) {}
 
 module.exports = {
     addTradie,
     getTradie,
     getAllTradies,
     updateTradie,
-    deleteTradie
-
+    deleteTradie,
+    addService,
+    updateService,
+    deleteService,
 }
