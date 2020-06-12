@@ -6,6 +6,7 @@ const schema = new mongoose.Schema({
         type: String,   
     },
     type: {
+        type: String,
         enum: [ "Normal House Clean", "Move Out Clean", "Kitchen Clean", "Office Clean", "Others" ],
         required: true,
      },
@@ -37,5 +38,4 @@ const schema = new mongoose.Schema({
 });
 
 const Model = mongoose.model('Service', schema);
-
 module.exports = Model;

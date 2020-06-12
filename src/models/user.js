@@ -45,6 +45,7 @@ const schema = new mongoose.Schema({
         required: true,
     },
     role:{
+        type: String,
         enum: [ 'client', 'tradie' ],
         required: true,
     },
