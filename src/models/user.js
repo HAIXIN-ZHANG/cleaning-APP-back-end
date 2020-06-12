@@ -7,7 +7,6 @@ const schema = new mongoose.Schema({
         uppercase: true,
         alias:'account',
     },
-
     password: {
         type: String,
         required: true,
@@ -38,6 +37,17 @@ const schema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    description: { 
+        type: String,
+    },
+    address: { 
+        type: String,
+        required: true,
+    },
+    role:{
+        enum: [ 'client', 'tradie' ],
+        required: true,
+    },
     image: {
         type: String,
         validate: {
@@ -45,8 +55,11 @@ const schema = new mongoose.Schema({
             msg: 'Invalid url format'
         }
     },
+
+    client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+    tradie: { type: mongoose.Schema.Types.ObjectId, ref: 'Tradie' },
+
 });
 
 const Model = mongoose.model('User', schema);
-
 module.exports = Model;
