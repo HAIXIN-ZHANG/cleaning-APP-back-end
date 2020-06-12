@@ -3,12 +3,14 @@ const mongoose = require('mongoose');
 exports.connectToDB = () => {
     const {DB_HOST, DB_PORT, DB_DATABASE} = process.env;
     const connectionString = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
-    //const connectionString = 'mongodb://localhost:27017/jr-handybooking';
-    //mongoose.connect('mongodb://user:password@sample.com:port/dbname', { useNewUrlParser: true })
+    
+    // const connectionString = 'mongodb://localhost:27017/jr-handybooking';
+    // mongoose.connect('mongodb://user:password@sample.com:port/dbname', { useNewUrlParser: true })
     // mongoose.set('useNewUrlParser', true);
     // mongoose.set('useFindAndModify', false);
     // mongoose.set('useCreateIndex', true);
     // mongoose.set('useUnifiedTopology', true);
+
     const db = mongoose.connection;
     db.on('connected', () => {
         console.log('DB connected');

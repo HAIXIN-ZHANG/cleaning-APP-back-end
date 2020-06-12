@@ -9,44 +9,31 @@ const schema = new mongoose.Schema({
         enum: [ "Normal House Clean", "Move Out Clean", "Kitchen Clean", "Office Clean", "Others" ],
         required: true,
      },
-     number_of_service_room: {
+     numberOfServiceRoom: {
         type: String,
         required: true,
         trim: true,
     },
-    service_time: {
+    serviceDescription: {
         type: String,
+    },
+    tradieName: {
+        type:String,
         required: true,
-        trim: true,
-        minlength: 2
     },
-    service_description: {
-        type: String,
+    servicePrice: {
+        type:String,
+        required: true,
     },
-    trader_name: {
-
-    },
-    service_price: {
-
-    },
-    membership_service_price: {
-
+    tradieEmail: {
+        type:String,
+        required: true,
+        trim:true,
     }, 
-    Trader_email: {
-
-    }, 
-    Trader_phone: {
-
-    },
-    email: {
-        
-    },
-    phone: { 
-        type: String,
+    tradiePhone: {
+        type:String,
         required: true,
-        trim: true,
     },
-    
 });
 
 const Model = mongoose.model('Service', schema);
