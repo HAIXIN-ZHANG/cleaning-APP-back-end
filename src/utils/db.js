@@ -25,6 +25,9 @@ exports.connectToDB = () => {
         console.log('mongoose connection is disconnected.');
     });
 
-    return mongoose.connect(connectionString);
+    return mongoose.connect(connectionString,{
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+    });
 
 };

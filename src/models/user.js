@@ -33,8 +33,17 @@ const schema = new mongoose.Schema({
 
     client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
     tradie: { type: mongoose.Schema.Types.ObjectId, ref: 'Tradie' },
+    __v: { type: Number, select: false }, // hide version
+},
+ {
+    timestamps: true, // show timestamp
+    toJSON: {
+      virtuals: true // required to show 'code' property
+    },
+    id: false // hide `id` virtual property
 
-});
+ }
+);
 
 const Model = mongoose.model('User', schema);
 module.exports = Model;
