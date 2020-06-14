@@ -10,13 +10,12 @@ const {connectToDB} = require('./utils/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use('/api', routes);
-
-
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
 app.use(express.json());
+
+app.use('/api', routes);
 
 connectToDB().then(() => {
     app.listen(PORT, () =>{
