@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 async function addUser(req, res){
     const { account, password, firstName, 
-        lastName, email, phone, image} = req.body;
+        lastName, role } = req.body;
     const existUser = await User.findById(account).exec();
     if (existUser) {
         return res.status(400).json('User exist');
@@ -11,13 +11,11 @@ async function addUser(req, res){
         account, 
         password,
         firstName, 
-        lastName,
-        email, 
-        phone, 
-        image
+        lastName,  
+        role,
     });
     await user.save();
-    return res.json(user);
+    return res.status(200).json(user);
 };
 
 async function getUser(req, res) {
@@ -36,10 +34,10 @@ async function getAllUsers(req, res) {
 
 async function updateUser(req, res) {
     const { account } = req.params;
+    const {password, firstName, lastName, role} = req.body;
     const updatedUser = await findByIdAndUpdate(
         account,
-        {password, firstName, lastName,
-        email, phone, image},
+        {password, firstName, lastName, role},
         { new: true }
     ).exec();
 
@@ -49,13 +47,9 @@ async function updateUser(req, res) {
     return res.status(200).json(updatedUser);
 };
 
-async function updateImage(req, res) {
-    return null;
-  }
 module.exports = {
     addUser,
     getUser,
     getAllUsers,
     updateUser,
-    updateImage,
 }

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const Joi = require('@hapi/joi');
+// const Joi = require('@hapi/joi');
 
 const schema = new mongoose.Schema({
     _id: {
-        type: String,   
+        type: String,
     },
     type: {
         type: String,
@@ -12,29 +12,25 @@ const schema = new mongoose.Schema({
      },
      numberOfServiceRoom: {
         type: String,
+        enum: ['1','2','3','4','5','5+'],
         required: true,
-        trim: true,
+    },
+    housingType: {
+        type: String,
+        enum: ['apartment','house','townhouse'],
+        default:'apartment',
+        required: true,
     },
     serviceDescription: {
         type: String,
-    },
-    tradieName: {
-        type:String,
-        required: true,
     },
     servicePrice: {
         type:String,
         required: true,
     },
-    tradieEmail: {
-        type:String,
-        required: true,
-        trim:true,
-    }, 
-    tradiePhone: {
-        type:String,
-        required: true,
-    },
+   
+    tradie: { type: mongoose.Schema.Types.ObjectId, ref: 'Tradie' },
+
 });
 
 const Model = mongoose.model('Service', schema);
