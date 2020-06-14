@@ -11,6 +11,30 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    clientDescription: {
+        type: String,
+        require:true,
+    },
+    clientPhoto: {
+        type: String,
+        // default:
+    },
+    clientEmail: {
+        type: String,
+        required: true,
+        validate: {
+          validator: email => !Joi.validate(email, Joi.string().email()).error,
+          msg: 'Invalid email format'
+        }
+    },
+    clientPhone: { 
+        type: String,
+        required: true,
+        trim: true,
+    },
+
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
 });
 
 const Model = mongoose.model('Client', schema);
