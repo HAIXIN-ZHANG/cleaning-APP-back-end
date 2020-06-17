@@ -31,18 +31,10 @@ const schema = new mongoose.Schema({
         require:true,
         default:'4000'
     },
-    clientName: {
-        type: String,
-        require: true,
-    }, 
-    clientPhone: {
-        type: String,
-        require: true,
-    }, 
     status: {
         type: String,
-        enum:['in processing', 'cancelled', 'waiting response', 'finished'],
-        default: 'waiting response',
+        enum:['In Processing', 'Cancelled', 'Waiting Response', 'Finished'],
+        default: 'Waiting Response',
     },
     client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
     tradie: { type: mongoose.Schema.Types.ObjectId, ref: 'Tradie' },

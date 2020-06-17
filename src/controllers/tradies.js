@@ -1,28 +1,65 @@
-function addTradie(req, res) {};
+const Tradie = require('../models/tradie')
+const User = require('../models/user');
 
-function getTradie(req, res) {};
+async function addTradie(req, res) {
+    const {
+         tradieName, ABN, tradieHours, tradieDescription,
+        tradieAddress, tradieEmail, tradiePhone, tradiePhoto
+    } = req.body;
 
-function getAllTradies(req, res) {
-    
+    const newTradie = new Tradie({
+        tradieName, ABN, tradieHours, tradieDescription,
+        tradieAddress, tradieEmail, tradiePhone, tradiePhoto
+    });
+    // req.user came form token decode.
+    const user = await User.findById(req.user.account).exec();
+    if (user.tradie) return res.status(400).json('tradie already exist');
+
+    newTradie.user.addToSet(req.user.account);
+    await newTradie.save();
+    user.tradie.addToSet(newTradie._id);
+    await user.save();
+    return res.status(201).json(newTradie);
 };
 
-function updateTradie(req, res) {};
+async function getTradiebyID(req, res) {
+    const { tradieId } = req.params;
+    
+    const tradie = await User.findById(tradieId).populate('order').exec();
+    if (!tradie) return res.status(404).json('tradie is not exist');
+    return res.status(200).json(tradie);
 
-function deleteTradie(req, res) {};
+};
 
-function addService(req, res) {}
+async function getAllTradies(req, res) {
+    const tradies = await User.find().populate('order').exec();
+    if (!tradies) return res.status(404).json('not found any tradie');
+    return res.status(200).json(tradies);
+};
 
-function updateService(req, res) {}
+async function updateTradieById(req, res) {
+    const { tradieId } = req.params;
+    const { tradieName, ABN, tradieHours, tradieDescription,
+    tradieAddress, tradieEmail, tradiePhone, tradiePhoto
+    } = req.body;
+    const tradie = await User.findByIdAndUpdate(
+        tradieId,
+        { tradieName, ABN, tradieHours, tradieDescription,
+        tradieAddress, tradieEmail, tradiePhone, tradiePhoto },
+        { new: true },).exec();
 
-function deleteService(req, res) {}
+        if (!tradie) return res.status(404).json('tradie is not exist');
+        
+        return res.status(200).json(tradie);
+};
+
+
+function updateTradieImage(req, res) {}
 
 module.exports = {
     addTradie,
-    getTradie,
     getAllTradies,
-    updateTradie,
-    deleteTradie,
-    addService,
-    updateService,
-    deleteService,
+    getTradiebyID,
+    updateTradieById,
+    updateTradieImage,
 }

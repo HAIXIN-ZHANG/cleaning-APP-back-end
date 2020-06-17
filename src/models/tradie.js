@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
     },
    tradieHours: {
         type: String,
-        require:true,
+        default:'8AM-5PM'
     },
    tradieDescription: {
         type: String,

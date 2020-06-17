@@ -34,6 +34,8 @@ const schema = new mongoose.Schema({
     client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
     tradie: { type: mongoose.Schema.Types.ObjectId, ref: 'Tradie' },
     __v: { type: Number, select: false }, // hide version
+    createdAt: { type: Date, select: false }
+
 },
  {
     timestamps: true, // show timestamp
