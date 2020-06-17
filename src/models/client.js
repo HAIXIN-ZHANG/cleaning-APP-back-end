@@ -13,11 +13,6 @@ const schema = new mongoose.Schema({
     },
     clientDescription: {
         type: String,
-        require:true,
-    },
-    clientPhoto: {
-        type: String,
-        // default:
     },
     clientEmail: {
         type: String,
@@ -32,9 +27,14 @@ const schema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    clientPhoto: {
+        type: String,
+        // default:
+    },
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
+    
 });
 
 const Model = mongoose.model('Client', schema);

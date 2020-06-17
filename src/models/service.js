@@ -9,6 +9,7 @@ const schema = new mongoose.Schema({
         type: String,
         enum: [ "Normal House Clean", "Move Out Clean", "Kitchen Clean", "Office Clean", "Others" ],
         required: true,
+        default:'Normal House Clean',
      },
      numberOfServiceRoom: {
         type: String,
