@@ -3,7 +3,8 @@ const {
     addClient,
     getAllClients,
     getClientbyID,
-    deleteClientById,
+    updateClientById,
+    getAllOrdersById,
     updateClientImage,
 } = require("../controllers/Clients");
 const router = express.Router();
@@ -11,7 +12,8 @@ const router = express.Router();
 router.post('/', addClient);
 router.get('/', getAllClients);
 router.get('/:clientId', getClientbyID);
-router.delete('/:clientId', deleteClientById);
+router.put('/:clientId', updateClientById);
+router.put('/:clientId/orders', getAllOrdersById);
 router.put('/:clientId/image', updateClientImage);
 
 module.exports = router;
