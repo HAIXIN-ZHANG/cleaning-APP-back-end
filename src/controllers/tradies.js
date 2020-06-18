@@ -1,5 +1,6 @@
 const Tradie = require('../models/tradie')
 const User = require('../models/user');
+const Order = require('../models/order');
 
 async function addTradie(req, res) {
     const {

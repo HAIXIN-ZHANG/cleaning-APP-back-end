@@ -1,6 +1,7 @@
 const Client = require('../models/client')
 const User = require('../models/user');
-
+const Order = require('../models/order');
+const Service = require('../models/service');
 
 async function addClient(req, res) {
 
