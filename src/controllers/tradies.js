@@ -53,13 +53,32 @@ async function updateTradieById(req, res) {
         return res.status(200).json(tradie);
 };
 
+async function getAllServicesById(req, res) {
+    const { tradieId } = req.params;
+    const tradie = await User.findById(tradieId).populate('Service').exec();
+    if (!tradie) return res.status(404).json('not a tradie')
+    const services = tradie.service;
+    if (!services) return res.status(404).json('this tradie does not have service')
+    return res.status(200).json(services);
+};
 
-function updateTradieImage(req, res) {}
+async function getAllOrdersById(req, res) {
+    const { tradieId } = req.params;
+    const tradie = await User.findById(tradieId).populate('Order').exec();
+    if (!tradie) return res.status(404).json('not a tradie')
+    const orders = tradie.order;
+    if (!orders) return res.status(404).json('this tradie does not have order')
+    return res.status(200).json(orders);
+};
+
+function updateTradieImage(req, res) {};
 
 module.exports = {
     addTradie,
     getAllTradies,
     getTradiebyID,
     updateTradieById,
+    getAllServicesById,
+    getAllOrdersById,
     updateTradieImage,
 }
