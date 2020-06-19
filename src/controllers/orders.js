@@ -14,7 +14,6 @@ async function addOrder(req, res) {
         startDate, finishedDate, requireServiceTime, 
         serviceAddress, additionalServiceRequire, postCode, status
     });
-    if (!order) return res.status(400).json('order already exist');
 
     const { serviceId, clientId } = req.query;
     if (!serviceId || !clientId) {
