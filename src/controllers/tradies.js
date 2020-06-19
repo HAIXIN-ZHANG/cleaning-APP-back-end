@@ -26,14 +26,14 @@ async function addTradie(req, res) {
 async function getTradiebyID(req, res) {
     const { tradieId } = req.params;
     
-    const tradie = await User.findById(tradieId).populate('order').exec();
+    const tradie = await Tradie.findById(tradieId).populate('order').exec();
     if (!tradie) return res.status(404).json('tradie is not exist');
     return res.status(200).json(tradie);
 
 };
 
 async function getAllTradies(req, res) {
-    const tradies = await User.find().populate('order').exec();
+    const tradies = await Tradie.find().populate('order').exec();
     if (!tradies) return res.status(404).json('not found any tradie');
     return res.status(200).json(tradies);
 };
@@ -43,7 +43,7 @@ async function updateTradieById(req, res) {
     const { tradieName, ABN, tradieHours, tradieDescription,
     tradieAddress, tradieEmail, tradiePhone, tradiePhoto
     } = req.body;
-    const tradie = await User.findByIdAndUpdate(
+    const tradie = await Tradie.findByIdAndUpdate(
         tradieId,
         { tradieName, ABN, tradieHours, tradieDescription,
         tradieAddress, tradieEmail, tradiePhone, tradiePhoto },
@@ -56,7 +56,7 @@ async function updateTradieById(req, res) {
 
 async function getAllServicesById(req, res) {
     const { tradieId } = req.params;
-    const tradie = await User.findById(tradieId).populate('Service').exec();
+    const tradie = await Tradie.findById(tradieId).populate('service').exec();
     if (!tradie) return res.status(404).json('not a tradie')
     const services = tradie.service;
     if (!services) return res.status(404).json('this tradie does not have service')
@@ -65,12 +65,27 @@ async function getAllServicesById(req, res) {
 
 async function getAllOrdersById(req, res) {
     const { tradieId } = req.params;
-    const tradie = await User.findById(tradieId).populate('Order').exec();
+    const tradie = await Tradie.findById(tradieId).populate('order').exec();
     if (!tradie) return res.status(404).json('not a tradie')
     const orders = tradie.order;
     if (!orders) return res.status(404).json('this tradie does not have order')
     return res.status(200).json(orders);
 };
+
+
+async function getOrdersByStatus(req, res) {
+    const { tradieId } = req.params;
+    const { status } = req.query;
+    const tradie = await Tradie.findById(tradieId).populate('order').exec();
+    if (!tradie) return res.status(404).json('not a tradie')
+    const orders = tradie.order;
+    if (!orders) return res.status(404).json('this tradie does not have order')
+    // not sure if correct
+    const tradies1 = Tradie.find({_id:tradieId,status:status}).exec();
+    const ordersByStatus = tradies1.order;
+    return res.status(200).json(ordersByStatus);
+   
+}
 
 function updateTradieImage(req, res) {};
 
@@ -81,5 +96,6 @@ module.exports = {
     updateTradieById,
     getAllServicesById,
     getAllOrdersById,
+    getOrdersByStatus,
     updateTradieImage,
 }
