@@ -3,15 +3,12 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
 
-    _id: {
-        type: String,   
-    },
     startDate: {
         type: Date,
         require: true,
         default: Date.now,
     },
-    finishedTime:{
+    finishedDate:{
         type: Date,
         require: true,
     },

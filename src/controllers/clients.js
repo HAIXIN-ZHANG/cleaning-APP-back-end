@@ -55,14 +55,16 @@ async function updateClientById(req, res) {
     if (!client) return res.status(404).json('client is not exist');
     return res.status(200).json(client);
 };
+
 async function getAllOrdersById(req, res) {
     const { clientId } = req.params;
-    const client = await User.findById(clientId).populate('Order').exec();
+    const client = await User.findById(clientId).populate('order').exec();
     if (!client) return res.status(404).json('not a client')
     const orders = client.order;
     if (!orders) return res.status(404).json('this client does not have order')
     return res.status(200).json(orders);
 };
+
 function updateClientImage(req, res) {};
 
 module.exports = {
