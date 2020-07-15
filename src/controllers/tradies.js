@@ -83,8 +83,7 @@ async function getOrdersByStatus(req, res) {
     // not sure if correct
     const tradies1 = Tradie.find({_id:tradieId,status:status}).exec();
     const ordersByStatus = tradies1.order;
-    return res.status(200).json(ordersByStatus);
-   
+    return res.status(200).json(ordersByStatus);  
 }
 
 function updateTradieImage(req, res) {};

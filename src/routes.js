@@ -14,7 +14,7 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/clients', authGuard, clientRoutes);
 router.use('/tradies', authGuard, tradieRoutes);
-router.use('/services', authGuard, serviceRoutes);
+router.use('/services', serviceRoutes);
 router.use('/orders', authGuard, orderRoutes);
 
 module.exports = router;
