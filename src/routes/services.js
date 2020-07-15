@@ -7,11 +7,11 @@ const {
     deleteServiceByTradieId,
     addServiceByTradieId,
 } = require("../controllers/service");
+const { authGuard,authGuardTradie } = require("../middleware/authGuard");
 
 const router = express.Router();
-const {authGuardTradie} = require('../middleware/authGuard');
 
-router.get('/', getAllServices);
+router.get('/', authGuard, getAllServices);
 router.get('/:serviceId', getServiceById);
 router.post('/', authGuardTradie,addServiceByTradieId);
 router.put('/:serviceId/tradies/:tradieId', authGuardTradie, updateServiceByTradieId);

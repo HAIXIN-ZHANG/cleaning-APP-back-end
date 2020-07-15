@@ -5,11 +5,12 @@ const {
     getAllUsers,
     updateUser,
 } = require("../controllers/users");
+const { authGuard } = require("../middleware/authGuard");
 const router = express.Router();
 
 router.get('/', getAllUsers);
-router.get('/:id', getUser);
+router.get('/:id', authGuard, getUser);
 router.post('/', addUser);
-router.put('/:id', updateUser);
+router.put('/:id', authGuard, updateUser);
 
 module.exports = router;

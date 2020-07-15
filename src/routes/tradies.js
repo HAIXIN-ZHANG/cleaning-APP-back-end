@@ -10,14 +10,15 @@ const {
     updateTradieImage,
 } = require("../controllers/tradies");
 const router = express.Router();
+const { authGuardTradie, authGuard } = require("../middleware/authGuard");
 
 router.post('/', addTradie);
 router.get('/', getAllTradies);
-router.get('/:tradieId', getTradiebyID);
-router.put('/:tradieId', updateTradieById);
-router.get('/:tradieId/services', getAllServicesById);
-router.get('/:tradieId/orders', getAllOrdersById);
-router.get('/:tradieId/orders/status', getOrdersByStatus);
-router.put('/:tradieId/image', updateTradieImage);
+router.get('/:tradieId', authGuard, getTradiebyID);
+router.put('/:tradieId', authGuard, authGuardTradie, updateTradieById);
+router.get('/:tradieId/services',authGuard, authGuardTradie, getAllServicesById);
+router.get('/:tradieId/orders',authGuard, authGuardTradie, getAllOrdersById);
+router.get('/:tradieId/orders/status',authGuard, authGuardTradie, getOrdersByStatus);
+router.put('/:tradieId/image',authGuard, authGuardTradie, updateTradieImage);
 
 module.exports = router;

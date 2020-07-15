@@ -1,6 +1,5 @@
 const{ validateToken } = require('../utils/jwt');
 
-
 function authGuard(req, res, next) {
     const authHeader = req.headers["authorization"];
     if (!authHeader) {
@@ -29,14 +28,12 @@ function authGuardTradie(req, res, next){
 }
 
 function authGuardClient(req, res, next){
-    if (!req.user.role.includes('tradie')){
+    if (!req.user.role.includes('client')){
         return res.status(401).json('Operation denied');      
     }
     return next();
 
 }
-
-
 
 module.exports = { authGuard,authGuardTradie,authGuardClient };
 

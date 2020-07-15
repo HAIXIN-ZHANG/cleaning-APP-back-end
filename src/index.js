@@ -3,6 +3,7 @@ const express =  require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
+const errorHandler = require("./middleware/errorHandler");
 
 const routes = require('./routes');
 const {connectToDB} = require('./utils/db');
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', routes);
+app.use(errorHandler);
 
 connectToDB().then(() => {
     app.listen(PORT, () =>{
@@ -23,6 +25,6 @@ connectToDB().then(() => {
     });
 }).catch(e => {
     console.log('DB connection failed');
-    console.error(e.message);
+    console.error(error.message);
     process.exit(1);
 });
