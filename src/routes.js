@@ -11,6 +11,7 @@ const {authGuard} = require('./middleware/authGuard');
 const router = express.Router();
 
 router.use('/auth', authRoutes);
+
 router.use('/users', userRoutes);
 router.use('/clients', authGuard, clientRoutes);
 router.use('/tradies', authGuard, tradieRoutes);
