@@ -1,6 +1,5 @@
 const express =  require('express');
 const {
-
     getServiceById,
     getAllServices,
     updateServiceByTradieId,
