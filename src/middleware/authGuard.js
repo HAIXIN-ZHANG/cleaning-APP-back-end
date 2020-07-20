@@ -13,7 +13,6 @@ function authGuard(req, res, next) {
     const decoded = validateToken(contentArray[1]);
     if(!decoded){
         return res.status(401).json('Access denied');
-       
     }
     req.user = decoded;
     return next();
@@ -24,7 +23,6 @@ function authGuardTradie(req, res, next){
         return res.status(401).json('Operation denied');      
     }
     return next();
-
 }
 
 function authGuardClient(req, res, next){

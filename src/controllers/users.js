@@ -15,8 +15,14 @@ async function addUser(req, res){
         lastName,  
         role,
     });
+    await user.hashPassword();
     await user.save();
-    return res.status(201).json(user);
+    const token = generateToken({ id: user.account, role: user.role });
+    return res.status(201).json({
+        id: user.account,
+        role: user.role,
+        token
+    });
 };
 
 async function getUser(req, res) {
@@ -32,20 +38,56 @@ async function getAllUsers(req, res) {
     const users = await User.find().exec();
     return res.status(200).json(users);
 };
-
 async function updateUser(req, res) {
     const { account } = req.params;
-    const {password, firstName, lastName, role} = req.body;
-    const updatedUser = await findByIdAndUpdate(
-        account,
-        {password, firstName, lastName, role},
-        { new: true }
-    ).exec();
+    const { password, firstName, lastName, role } = req.body;
+    const updatedUser = await findById(account).exec();
 
     if (!updatedUser) {
         return res.status(404).json('User not found')
     }
-    return res.status(200).json(updatedUser);
+    if (!(await updatedUser.validatePassword(password))) {
+        return res.status(400).json("Invalid password");
+    }
+    updatedUser.firstName = firstName;
+    updatedUser.lastName = lastName;
+    updatedUser.role = role;
+    await updatedUser.save();
+    const token = generateToken({ id: updatedUser.account, role: updatedUser.role });
+    return res.status(200).json({ 
+        id: updatedUser.account, 
+        role: updatedUser.role, 
+        token 
+    });
+}
+
+async function updatePassword(req, res) {
+    const { account } = req.params;
+    const { password, newPassword, doubleInputPassword } = req.body;
+    const updatedUser = await findById(account).exec();
+
+    if (!updatedUser) {
+        return res.status(404).json('User not found')
+    }
+    if (!(await updatedUser.validatePassword(password))) {
+        return res.status(400).json("Invalid password");
+    }
+    if (
+        !newPassword ||
+        !doubleInputPassword ||
+        newPassword !== doubleInputPassword
+    ) {
+         return res.status(400).json("New passwords entered twice are inconsistent");
+    }
+    updatedUser.password = newPassword;
+    await updatedUser.hashPassword();
+    await updatedUser.save();
+    const token = generateToken({ id: updatedUser.account, role: updatedUser.role });
+    return res.status(200).json({ 
+        id: updatedUser.account, 
+        role: updatedUser.role, 
+        token 
+    });
 };
 
 module.exports = {
@@ -53,4 +95,5 @@ module.exports = {
     getUser,
     getAllUsers,
     updateUser,
+    updatePassword
 }

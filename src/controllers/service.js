@@ -1,9 +1,11 @@
 const Service = require('../models/service');
 const Tradie = require('../models/tradie');
+const checkId = require("../utils/checkId");
 
 async function getServiceById(req, res) {
   const { id } = req.params;
-  const service = await Service.findById(id).populate('tradie', 'tradieName tradieEmail tradiePhone').exec();
+  const service = await Service.findById(id)
+  .populate('tradie', 'tradieName tradieEmail tradiePhone').exec();
 
   if(!service) {
       return res.status(404).json('service not found');
@@ -19,17 +21,25 @@ async function getAllServices(req, res) {
   return res.status(200).json(services);
 };
 
-async function addServiceByTradieId(req, res) {
+async function getServicesByName(req, res) {
+  const{tradieName} = req.query;
+  const tradies = await Tradie.findBy({ tradieName:tradieName }).populate('service').exec();
+  if(!tradies) return res.status(400).json("tradie not found");
+  const service = tradies.service;
+  return res.status(200).json(service);
+}
+
+async function addServiceToTradie(req, res) {
     const { type, numberOfServiceRoom, housingType, serviceDescription,
         servicePrice } = req.body;
     
     const{tradieId} = req.query;
 
     const tradie = await Tradie.findById(tradieId).exec();
-    if (!tradie) {
-        return res.status(400).json("tradie not found");
-    }
-    
+    checkId(tradie, req, res);
+    if ( res.statusCode === 401 ) return;
+    if (!tradie) return res.status(404).json('not find a tradie')
+
     const newService = new Service ({
         type, numberOfServiceRoom, housingType, serviceDescription,
         servicePrice
@@ -42,7 +52,6 @@ async function addServiceByTradieId(req, res) {
 
 };
 
-
 async function updateServiceByTradieId(req, res) {
     const { serviceId, tradieId } = req.params;
     const { type, numberOfServiceRoom, housingType, serviceDescription,
@@ -54,6 +63,8 @@ async function updateServiceByTradieId(req, res) {
     };
 
     const tradie = await Tradie.findById(tradieId).exec();
+    checkId(tradie, req, res);
+    if ( res.statusCode === 401 ) return;
     if(!tradie){
       return res.status(404).json('tradie not found');
     };
@@ -76,7 +87,10 @@ async function deleteServiceByTradieId(req, res) {
     if (!service) {
       return res.status(404).json('service not found');
     };
+    
     const tradie = await Tradie.findById(tradieId).exec();
+    checkId(tradie, req, res);
+    if ( res.statusCode === 401 ) return;
     if(!tradie){
       return res.status(404).json('tradie not found');
     };
@@ -101,7 +115,8 @@ async function deleteServiceByTradieId(req, res) {
 module.exports = {
     getServiceById,
     getAllServices,
-    addServiceByTradieId,
+    getServicesByName,
+    addServiceToTradie,
     updateServiceByTradieId,
     deleteServiceByTradieId,
 }

@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-function generateToken({ account}) {
-    const token = jwt.sign({ account, role:['tradie', 'client']}, process.env.JWT_KEY, {
-        expiresIn: "1h"
+function generateToken({ account, role }) {
+    const token = jwt.sign({ account, role }, process.env.JWT_KEY, {
+        expiresIn: "4h"
     });
     return token;
 }
@@ -17,5 +17,4 @@ function validateToken(token) {
     return decoded;
 }
 
-module.exports = { generateToken, 
-    validateToken };
+module.exports = { generateToken, validateToken };
