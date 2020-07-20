@@ -3,6 +3,9 @@ const User = require('../models/user');
 const Order = require('../models/order');
 const Service = require('../models/service');
 
+const checkId = require("../utils/checkId");
+const { deleteImage } = require("../utils/uploader");
+
 async function addClient(req, res) {
 
     const {
@@ -25,7 +28,7 @@ async function addClient(req, res) {
     return res.status(201).json(newClient);
 };
 
-async function getClientbyID(req, res) {
+async function getClientByID(req, res) {
     const { clientId } = req.params;
     
     const client = await User.findById(clientId).populate('order').exec();
@@ -46,6 +49,11 @@ async function updateClientById(req, res) {
         clientName, membership, clientDescription, 
         clientEmail, clientPhone, clientPhoto
     } = req.body;
+
+    const checkClient = await User.findById(clientId).exec();
+    checkId(checkClient, req, res);
+    if (res.statusCode === 401) return;
+
     const client = await User.findByIdAndUpdate(
         clientId,
         { clientName, membership, clientDescription, 
@@ -65,12 +73,30 @@ async function getAllOrdersById(req, res) {
     return res.status(200).json(orders);
 };
 
-function updateClientImage(req, res) {};
+async function updateClientImage(req, res) {
+    const { clientId } = req.params;
+	if (!req.file) {
+		return res.status(400).json("Image missing");
+	}
+	const client = await Client.findById(clientId).exec();
+
+	if (!client) {
+		await deleteImage(req.file.key);
+		return res.status(404).json("Client not found");
+	}
+	if (!client.user || client.user._id.toString() !== req.user.id) {
+		await deleteImage(req.file.key);
+		return res.status(401).json("Access denied");
+	}
+	client.photo = req.file.location;
+    await client.save();
+	return res.status(200).json(client.photo);
+};
 
 module.exports = {
     addClient,
     getAllClients,
-    getClientbyID,
+    getClientByID,
     updateClientById,
     getAllOrdersById,
     updateClientImage,

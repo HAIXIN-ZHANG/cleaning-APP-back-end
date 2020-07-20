@@ -2,6 +2,7 @@ const Order = require('../models/order');
 const Service = require('../models/service');
 const Client = require('../models/client');
 const Tradie = require('../models/tradie');
+const checkId = require("../utils/checkId");
 
 async function addOrder(req, res) {
 
@@ -22,8 +23,10 @@ async function addOrder(req, res) {
 
     const service = await Service.findById(serviceId).exec();
     const client = await Client.findById(clientId).exec();
+    checkId(client, req, res);
+    if ( res.statusCode === 401 ) return;
     if (!service || !client) {
-        return res.status(400).json('service or client not exist')
+        return res.status(404).json('service or client not exist')
     };
 
     const service1= await Service.findById(serviceId).populate('tradie').exec();
@@ -89,7 +92,11 @@ async function updateOrderByTradie (req, res) {
     const order = await Order.findById(orderId)
         .populate('tradie')
         .exec();
+
     const tradie = await Tradie.findById(tradieId).exec();
+    checkId(tradie, req, res);
+    if ( res.statusCode === 401 ) return;
+
     if (!order) return res.status(404).json("order not found");
     if (!tradie) return res.status(404).json("tradie not found");
     if (order.tradie._id !== tradieId) {
@@ -99,7 +106,7 @@ async function updateOrderByTradie (req, res) {
         return res.status(401).json("Access denied");
     }
 
-    if ( order.status === 'Cancelled' || order.status === 'Finished') {
+    if (order.status === 'Cancelled' || order.status === 'Finished') {
         return res.status(400).json('cannot change status')
     }
 
@@ -114,7 +121,11 @@ async function updateOrderByClient (req, res) {
     const order = await Order.findById(orderId)
         .populate('client')
         .exec();
+
     const client = await Tradie.findById(clientId).exec();
+    checkId(client, req, res);
+    if ( res.statusCode === 401 ) return;
+
     if (!order) return res.status(404).json("order not found");
     if (!client) return res.status(404).json("client not found");
     if (order.client._id !== clientId) {
