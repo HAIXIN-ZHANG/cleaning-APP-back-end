@@ -2,27 +2,31 @@ const User = require('../models/user');
 const { generateToken } = require("../utils/jwt");
 
 async function addUser(req, res){
-    const { account, password, firstName, 
-        lastName, role } = req.body;
-    const existUser = await User.findById(account).exec();
-    if (existUser) {
-        return res.status(400).json('User exist');
-    }
-    const user = new User ({
-        account, 
+    
+    const { account, password, firstName, lastName, role } = req.body;
+   
+   const existUser = await User.findById(account).exec();
+   if (existUser) {
+       return res.status(400).json('User exist');
+   }
+   const user = new User ({
+        account,
         password,
         firstName, 
         lastName,  
         role,
     });
-    await user.hashPassword();
+   
+   // await user.hashPassword();
     await user.save();
-    const token = generateToken({ id: user.account, role: user.role });
+    console.log(user.account);
+   const token = generateToken({ account: user.account, role: user.role });
     return res.status(201).json({
-        id: user.account,
+        account: user.account,
         role: user.role,
         token
     });
+   // return res.status(201).json(user);
 };
 
 async function getUser(req, res) {

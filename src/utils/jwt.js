@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function generateToken({ account, role }) {
-    const token = jwt.sign({ account, role }, process.env.JWT_KEY, {
+    const token = jwt.sign({ account, role }, "secret", {
         expiresIn: "4h"
     });
     return token;
@@ -10,7 +10,7 @@ function generateToken({ account, role }) {
 function validateToken(token) {
     let decoded;
     try {
-        decoded = jwt.verify(token, process.env.JWT_KEY);
+        decoded = jwt.verify(token, "secret");
     } catch (e) {
         return null;
     }
