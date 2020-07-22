@@ -7,7 +7,7 @@ const checkId = require("../utils/checkId");
 const { deleteImage } = require("../utils/uploader");
 
 async function addClient(req, res) {
-console.log("1")
+
     const {
         clientName, membership, clientDescription, 
         clientEmail, clientPhone, clientPhoto
@@ -31,8 +31,8 @@ console.log("1")
 
 async function getClientByID(req, res) {
     const { clientId } = req.params;
-    
-    const client = await User.findById(clientId).populate('order').exec();
+    console.log("1")
+    const client = await Client.findById(clientId).populate('order').exec();
     if (!client) return res.status(404).json('client is not exist');
     return res.status(200).json(client);
 
