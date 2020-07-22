@@ -39,7 +39,7 @@ async function getClientByID(req, res) {
 };
 
 async function getAllClients(req, res) {
-    const clients = await User.find().populate('order').exec();
+    const clients = await Client.find().populate('order').exec();
     if (!clients) return res.status(404).json('not found any clients');
     return res.status(200).json(clients);
 };
@@ -51,11 +51,11 @@ async function updateClientById(req, res) {
         clientEmail, clientPhone, clientPhoto
     } = req.body;
 
-    const checkClient = await User.findById(clientId).exec();
+    const checkClient = await Client.findById(clientId).exec();
     checkId(checkClient, req, res);
     if (res.statusCode === 401) return;
 
-    const client = await User.findByIdAndUpdate(
+    const client = await Client.findByIdAndUpdate(
         clientId,
         { clientName, membership, clientDescription, 
             clientEmail, clientPhone, clientPhoto },
