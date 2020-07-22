@@ -9,6 +9,7 @@ async function addUser(req, res){
    if (existUser) {
        return res.status(400).json('User exist');
    }
+   
    const user = new User ({
         account,
         password,
@@ -17,7 +18,7 @@ async function addUser(req, res){
         role,
     });
    
-   // await user.hashPassword();
+    await user.hashPassword();
     await user.save();
     console.log(user.account);
    const token = generateToken({ account: user.account, role: user.role });
