@@ -31,8 +31,10 @@ async function addUser(req, res){
 };
 
 async function getUser(req, res) {
-    const { account } = req.params; 
-    const user = await User.findById(account).exec();
+   const { id } = req.params; 
+     
+    // const user = await User.findById(req.params.id);
+    const user = await User.findById(id);
     if (!user) {
         return res.status(404).json('User not found');
     }
