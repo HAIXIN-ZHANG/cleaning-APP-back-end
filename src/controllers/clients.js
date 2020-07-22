@@ -7,25 +7,26 @@ const checkId = require("../utils/checkId");
 const { deleteImage } = require("../utils/uploader");
 
 async function addClient(req, res) {
-
+console.log("1")
     const {
         clientName, membership, clientDescription, 
         clientEmail, clientPhone, clientPhoto
     } = req.body;
 
-    const newClient = new Client({
+    const client = new Client({
         clientName, membership, clientDescription, 
         clientEmail, clientPhone, clientPhoto
     });
     // req.user came form token decode.
     const user = await User.findById(req.user.account).exec();
-    if (user.client) return res.status(400).json('client already exist');
-
-    newClient.user.addToSet(req.user.account);
-    await newClient.save();
-    user.client.addToSet(newClient._id);
+    if (user.client) return res.status(400).json('Client cannot be registered twice with the same username');
+    client.user = req.user.account;
+   // newClient.user.addToSet(req.user.account);
+    await client.save();
+    //user.client.addToSet(newClient._id);
+    user.client = client._id;
     await user.save();
-    return res.status(201).json(newClient);
+    return res.status(201).json(client);
 };
 
 async function getClientByID(req, res) {

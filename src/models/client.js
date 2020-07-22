@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const Joi = require('@hapi/joi');
+ const Joi = require('@hapi/joi');
 
 const schema = new mongoose.Schema({
 
@@ -18,8 +18,11 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         validate: {
-          validator: email => !Joi.validate(email, Joi.string().email()).error,
-          msg: 'Invalid email format'
+            validator: email =>
+                !Joi.string()
+                    .email()
+                    .validate(email).error,
+            msg: "Invalid email format"
         }
     },
     clientPhone: { 
@@ -32,8 +35,9 @@ const schema = new mongoose.Schema({
         // default:
     },
 
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
+   //user: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    user: { type: String, ref: 'User'},
+    order: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
     
 });
 
