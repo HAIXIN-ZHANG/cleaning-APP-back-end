@@ -10,19 +10,20 @@ async function addTradie(req, res) {
         tradieAddress, tradieEmail, tradiePhone, tradiePhoto
     } = req.body;
 
-    const newTradie = new Tradie({
+    const tradie = new Tradie({
         tradieName, ABN, tradieHours, tradieDescription,
         tradieAddress, tradieEmail, tradiePhone, tradiePhoto
     });
     // req.user came form token decode.
     const user = await User.findById(req.user.account).exec();
-    if (user.tradie) return res.status(400).json('tradie already exist');
-
-    newTradie.user.addToSet(req.user.account);
-    await newTradie.save();
-    user.tradie.addToSet(newTradie._id);
+    if (user.tradie) return res.status(400).json('Client cannot be registered twice with the same username');
+    tradie.user = req.user.account;
+   // tradie.user.addToSet(req.user.account);
+    await tradie.save();
+    //user.tradie.addToSet(newTradie._id);
+    user.tradie = tradie._id;
     await user.save();
-    return res.status(201).json(newTradie);
+    return res.status(201).json(tradie);
 };
 
 async function getTradiebyID(req, res) {

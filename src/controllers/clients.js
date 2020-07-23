@@ -31,7 +31,7 @@ async function addClient(req, res) {
 
 async function getClientByID(req, res) {
     const { clientId } = req.params;
-    console.log("1")
+   
     const client = await Client.findById(clientId).populate('order').exec();
     if (!client) return res.status(404).json('client is not exist');
     return res.status(200).json(client);

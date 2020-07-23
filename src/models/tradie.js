@@ -27,8 +27,11 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         validate: {
-          validator: email => !Joi.validate(email, Joi.string().email()).error,
-          msg: 'Invalid email format'
+            validator: email =>
+                !Joi.string()
+                    .email()
+                    .validate(email).error,
+            msg: "Invalid email format"
         }
     },
    tradiePhone: { 
@@ -40,7 +43,7 @@ const schema = new mongoose.Schema({
         type: String,
         // default:
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: String, ref: 'User' },
     service: { type: mongoose.Schema.Types.ObjectId, ref: 'Service' },
     order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
 
