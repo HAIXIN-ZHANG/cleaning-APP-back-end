@@ -1,6 +1,9 @@
+const mongoose = require('mongoose');
 const Service = require('../models/service');
 const Tradie = require('../models/tradie');
 const checkId = require("../utils/checkId");
+const {ObjectId} = require('mongodb');
+
 
 async function getServiceById(req, res) {
   const { id } = req.params;
@@ -19,6 +22,7 @@ async function getAllServices(req, res) {
     return res.status(404).json('no services found');
   }
   return res.status(200).json(services);
+  
 };
 
 async function getServicesByName(req, res) {
@@ -36,20 +40,30 @@ async function addServiceToTradie(req, res) {
     const{tradieId} = req.query;
 
     const tradie = await Tradie.findById(tradieId).exec();
+    console.log(tradie);
     checkId(tradie, req, res);
     if ( res.statusCode === 401 ) return;
     if (!tradie) return res.status(404).json('not find a tradie')
 
-    const newService = new Service ({
+    const service = new Service ({
         type, numberOfServiceRoom, housingType, serviceDescription,
         servicePrice
     });
-    newService.tradie.addToSet(tradieId);
-    await newService.save();
-    tradie.service.addToSet(newService._id);
+    service.tradie = tradieId;
+    
+  //  service.tradie.addToSet(tradieId);
+    await service.save();
+  // tradie.service.$addToSet(service._id);
+  // const ObjectId = mongoose.Types.ObjectId;
+  // const specialID = new ObjectId;
+  //  const specialID = mongoose.Types.ObjectId(service.id);
+  //  console.log(typeof(service.id));
+  //  console.log(typeof(specialID));
+   tradie.service = service._id;
+  
     await tradie.save();
-    return res.status(200).json(newService);
-
+    return res.status(200).json(service);
+     
 };
 
 async function updateServiceByTradieId(req, res) {
