@@ -6,8 +6,8 @@ const {ObjectId} = require('mongodb');
 
 
 async function getServiceById(req, res) {
-  const { id } = req.params;
-  const service = await Service.findById(id)
+  const { serviceId } = req.params;
+  const service = await Service.findById(serviceId)
   .populate('tradie', 'tradieName tradieEmail tradiePhone').exec();
 
   if(!service) {

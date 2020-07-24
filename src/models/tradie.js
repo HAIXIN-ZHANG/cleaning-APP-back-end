@@ -44,8 +44,8 @@ const schema = new mongoose.Schema({
         // default:
     },
     user: { type: String, ref: 'User' },
-    service: { type: mongoose.Schema.Types.ObjectId, ref: 'Service' },
-    order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
+    service: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Service' }],
+    order: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
 
 });
 

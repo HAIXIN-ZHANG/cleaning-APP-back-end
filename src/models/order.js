@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     },
     finishedDate:{
         type: Date,
-        require: true,
+       // require: true,
     },
     requireServiceTime: {
         type: String,
