@@ -10,7 +10,8 @@ const { authGuard } = require("../middleware/authGuard");
 const router = express.Router();
 
 router.get('/', getAllUsers);
-router.get('/:id', authGuard, getUser);
+//router.get('/:id', authGuard, getUser);
+router.get('/:id',  getUser);
 router.post('/', addUser);
 router.put('/:id', authGuard, updateUser);
 router.put('/:id/password', authGuard, updatePassword);

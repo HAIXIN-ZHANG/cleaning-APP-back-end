@@ -1,3 +1,4 @@
+
 const Order = require('../models/order');
 const Service = require('../models/service');
 const Client = require('../models/client');
@@ -31,17 +32,22 @@ async function addOrder(req, res) {
 
     const service1= await Service.findById(serviceId).populate('tradie').exec();
     const tradieId = service1.tradie._id;
+    console.log(typeof(tradieId));
     const tradie = await Tradie.findById(tradieId).exec();
 
-    order.service.addToSet(serviceId);
-    order.tradie.addToSet(tradieId);
-    order.client.addToSet(clientId);
+ //   order.service.addToSet(service1.id);
+      order.service = service1._id;
+      console.log(service1._id);
+   // order.tradie.addToSet(tradieId);
+      order.tradie = tradieId;
+  //  order.client.addToSet(client.id);
+      order.client = client._id;
     await order.save();
 
-    tradie.order.addToSet(order._id);
-    await tradie.save();
+    tradie.order.addToSet(order.id);
+     await tradie.save();
 
-    client.order.addToSet(order._id);
+    client.order.addToSet(order.id);
     await client.save();
 
     return res.status(201).json(order);

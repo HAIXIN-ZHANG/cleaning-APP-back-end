@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/', authGuard, getAllServices);
 router.get('/:serviceId', getServiceById);
 router.get('/:serviceId', getServicesByName);
-router.post('/', authGuardTradie,addServiceToTradie);
+router.post('/', authGuard,authGuardTradie,addServiceToTradie);
 router.put('/:serviceId/tradies/:tradieId', authGuardTradie, updateServiceByTradieId);
 router.delete('/:serviceId/tradies/:tradierId', authGuardTradie, deleteServiceByTradieId);
 

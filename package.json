@@ -4,7 +4,8 @@
   "description": "JR P3 project back end develop",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "debug": "nodemon --inspect src/index.js"
   },
   "repository": {
     "type": "git",

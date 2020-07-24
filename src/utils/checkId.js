@@ -1,6 +1,6 @@
 function checkId(role, req, res) {
    
-    if (!role.user || role.user._id.toString() !== req.user.id) {
+    if (!role.user || role.user.toString() !== req.user.account) {
         return res.status(401).json("Access denied");
     }
 }

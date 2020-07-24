@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 // const Joi = require('@hapi/joi');
 
 const schema = new mongoose.Schema({
-    _id: {
-        type: String,
-    },
+   
     type: {
         type: String,
         enum: [ "Normal House Clean", "Move Out Clean", "Kitchen Clean", "Office Clean", "Others" ],

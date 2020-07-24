@@ -14,7 +14,9 @@ router.use('/auth', authRoutes);
 
 router.use('/users', userRoutes);
 router.use('/clients', authGuard, clientRoutes);
+//router.use('/clients', clientRoutes);
 router.use('/tradies', authGuard, tradieRoutes);
+router.use('/tradies',  tradieRoutes);
 router.use('/services', serviceRoutes);
 router.use('/orders', authGuard, orderRoutes);
 

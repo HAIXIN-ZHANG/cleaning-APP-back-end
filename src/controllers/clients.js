@@ -13,32 +13,33 @@ async function addClient(req, res) {
         clientEmail, clientPhone, clientPhoto
     } = req.body;
 
-    const newClient = new Client({
+    const client = new Client({
         clientName, membership, clientDescription, 
         clientEmail, clientPhone, clientPhoto
     });
     // req.user came form token decode.
     const user = await User.findById(req.user.account).exec();
-    if (user.client) return res.status(400).json('client already exist');
-
-    newClient.user.addToSet(req.user.account);
-    await newClient.save();
-    user.client.addToSet(newClient._id);
+    if (user.client) return res.status(400).json('Client cannot be registered twice with the same username');
+    client.user = req.user.account;
+   // newClient.user.addToSet(req.user.account);
+    await client.save();
+    //user.client.addToSet(newClient._id);
+    user.client = client._id;
     await user.save();
-    return res.status(201).json(newClient);
+    return res.status(201).json(client);
 };
 
 async function getClientByID(req, res) {
     const { clientId } = req.params;
-    
-    const client = await User.findById(clientId).populate('order').exec();
+   
+    const client = await Client.findById(clientId).populate('order').exec();
     if (!client) return res.status(404).json('client is not exist');
     return res.status(200).json(client);
 
 };
 
 async function getAllClients(req, res) {
-    const clients = await User.find().populate('order').exec();
+    const clients = await Client.find().populate('order').exec();
     if (!clients) return res.status(404).json('not found any clients');
     return res.status(200).json(clients);
 };
@@ -50,11 +51,11 @@ async function updateClientById(req, res) {
         clientEmail, clientPhone, clientPhoto
     } = req.body;
 
-    const checkClient = await User.findById(clientId).exec();
+    const checkClient = await Client.findById(clientId).exec();
     checkId(checkClient, req, res);
     if (res.statusCode === 401) return;
 
-    const client = await User.findByIdAndUpdate(
+    const client = await Client.findByIdAndUpdate(
         clientId,
         { clientName, membership, clientDescription, 
             clientEmail, clientPhone, clientPhoto },
