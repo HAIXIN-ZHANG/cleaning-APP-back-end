@@ -1,9 +1,6 @@
-const mongoose = require('mongoose');
 const Service = require('../models/service');
 const Tradie = require('../models/tradie');
 const checkId = require("../utils/checkId");
-const {ObjectId} = require('mongodb');
-
 
 async function getServiceById(req, res) {
   const { serviceId } = req.params;
@@ -29,42 +26,22 @@ async function getServicesByName(req, res) {
   const{tradieName} = req.query;
   const tradies = await Tradie.findBy({ tradieName:tradieName }).populate('service').exec();
   if(!tradies) return res.status(400).json("tradie not found");
-  const service = tradies.service;
-  return res.status(200).json(service);
+  const services = tradies.service;
+  return res.status(200).json(services);
 }
 
-async function addServiceToTradie(req, res) {
-    const { type, numberOfServiceRoom, housingType, serviceDescription,
-        servicePrice } = req.body;
-    
-    const{tradieId} = req.query;
+async function getServicesByCleanType(req, res) {
+  const{type} = req.query;
+  if (type !== "Normal House Clean" || type !== "Move Out Clean" 
+  || type !== "Kitchen Clean",  type !== "Office Clean", "Others") {
+    return res.status(400).json('please input correct cleaning type');
+  }
 
-    const tradie = await Tradie.findById(tradieId).exec();
-    console.log(tradie);
-    checkId(tradie, req, res);
-    if ( res.statusCode === 401 ) return;
-    if (!tradie) return res.status(404).json('not find a tradie')
+  const services = await Service.findBy({type:type}).populate('tradies').exec();
+  if (!services) return res.status(400).json("No such type of services");
+  return res.status(200).json(services);
+}
 
-    const service = new Service ({
-        type, numberOfServiceRoom, housingType, serviceDescription,
-        servicePrice
-    });
-    service.tradie = tradieId;
-    
-  //  service.tradie.addToSet(tradieId);
-    await service.save();
-  // tradie.service.$addToSet(service._id);
-  // const ObjectId = mongoose.Types.ObjectId;
-  // const specialID = new ObjectId;
-  //  const specialID = mongoose.Types.ObjectId(service.id);
-  //  console.log(typeof(service.id));
-  //  console.log(typeof(specialID));
-   tradie.service = service._id;
-  
-    await tradie.save();
-    return res.status(200).json(service);
-     
-};
 
 async function updateServiceByTradieId(req, res) {
     const { serviceId, tradieId } = req.params;
@@ -130,7 +107,7 @@ module.exports = {
     getServiceById,
     getAllServices,
     getServicesByName,
-    addServiceToTradie,
+    getServicesByCleanType,
     updateServiceByTradieId,
     deleteServiceByTradieId,
 }
