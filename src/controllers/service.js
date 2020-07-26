@@ -5,7 +5,7 @@ const checkId = require("../utils/checkId");
 async function getServiceById(req, res) {
   const { serviceId } = req.params;
   const service = await Service.findById(serviceId)
-  .populate('tradie', 'tradieName tradieEmail tradiePhone').exec();
+  .populate('tradie', 'tradieName tradieEmail tradiePhone tradieAddress').exec();
 
   if(!service) {
       return res.status(404).json('service not found');
@@ -14,7 +14,9 @@ async function getServiceById(req, res) {
 };
 
 async function getAllServices(req, res) {
-  const services = await Service.find().populate('tradie', 'tradieName tradieEmail tradiePhone').exec();
+  const services = await Service.find().populate('tradie', 
+  'tradieName tradieEmail tradiePhone tradieAddress').exec();
+
   if(!services) {
     return res.status(404).json('no services found');
   }
@@ -23,7 +25,7 @@ async function getAllServices(req, res) {
 };
 
 async function getServicesByName(req, res) {
-  const{tradieName} = req.query;
+  const{ tradieName } = req.query;
   const tradies = await Tradie.findBy({ tradieName:tradieName }).populate('service').exec();
   if(!tradies) return res.status(400).json("tradie not found");
   const services = tradies.service;
@@ -33,7 +35,7 @@ async function getServicesByName(req, res) {
 async function getServicesByCleanType(req, res) {
   const{type} = req.query;
   if (type !== "Normal House Clean" || type !== "Move Out Clean" 
-  || type !== "Kitchen Clean",  type !== "Office Clean", "Others") {
+  || type !== "Kitchen Clean",  type !== "Office Clean", type !== "Others") {
     return res.status(400).json('please input correct cleaning type');
   }
 

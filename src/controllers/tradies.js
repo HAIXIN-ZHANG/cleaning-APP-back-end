@@ -122,16 +122,10 @@ async function addServiceByTradie(req, res) {
         type, numberOfServiceRoom, housingType, serviceDescription,
         servicePrice
     });
-    service.tradie = tradieId;
     
-  //  service.tradie.addToSet(tradieId);
+    service.tradie = tradieId;
     await service.save();
-  // tradie.service.$addToSet(service._id);
-  // const ObjectId = mongoose.Types.ObjectId;
-  // const specialID = new ObjectId;
-  //  const specialID = mongoose.Types.ObjectId(service.id);
-  //  console.log(typeof(service.id));
-  //  console.log(typeof(specialID));
+ 
     tradie.service.addToSet(service._id);
     await tradie.save();
     return res.status(200).json(service);

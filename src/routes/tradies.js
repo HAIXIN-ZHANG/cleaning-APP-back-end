@@ -18,7 +18,7 @@ router.get('/', getAllTradies);
 router.get('/:tradieId', authGuard, getTradiebyID);
 router.put('/:tradieId', authGuard, authGuardTradie, updateTradieById);
 router.get('/:tradieId/services',authGuard, authGuardTradie, getAllServicesById);
-router.post(':/tradieId/services', authGuard, authGuardTradie, addServiceByTradie);
+router.post('/:tradieId/services', authGuard, authGuardTradie, addServiceByTradie);
 router.get('/:tradieId/orders',authGuard, authGuardTradie, getAllOrdersById);
 router.get('/:tradieId/orders/status',authGuard, authGuardTradie, getOrdersByStatus);
 router.put('/:tradieId/image',authGuard, authGuardTradie, updateTradieImage);

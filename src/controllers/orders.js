@@ -22,7 +22,7 @@ async function addOrder(req, res) {
         return res.status(400).json('Please input correct serviceId or clientId')
     };
 
-    const service = await Service.findById(serviceId).exec();
+    const service = await Service.findById(serviceId).populate('tradie').exec();
     const client = await Client.findById(clientId).exec();
     checkId(client, req, res);
     if ( res.statusCode === 401 ) return;
@@ -30,24 +30,18 @@ async function addOrder(req, res) {
         return res.status(404).json('service or client not exist')
     };
 
-    const service1= await Service.findById(serviceId).populate('tradie').exec();
-    const tradieId = service1.tradie._id;
-    console.log(typeof(tradieId));
+    const tradieId = service.tradie._id;
     const tradie = await Tradie.findById(tradieId).exec();
 
- //   order.service.addToSet(service1.id);
-      order.service = service1._id;
-      console.log(service1._id);
-   // order.tradie.addToSet(tradieId);
+      order.service = service._id;
       order.tradie = tradieId;
-  //  order.client.addToSet(client.id);
       order.client = client._id;
     await order.save();
 
-    tradie.order.addToSet(order.id);
+    tradie.order.addToSet(order._id);
      await tradie.save();
 
-    client.order.addToSet(order.id);
+    client.order.addToSet(order._id);
     await client.save();
 
     return res.status(201).json(order);

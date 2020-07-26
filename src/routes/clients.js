@@ -13,12 +13,8 @@ const { authGuard, authGuardClient } = require("../middleware/authGuard");
 router.post('/', addClient);
 //router.get('/', getAllClients);
 router.get('/:clientId',authGuard, authGuardClient, getClientByID);
-
 router.put('/:clientId',authGuard, authGuardClient, updateClientById);
-
 router.put('/:clientId/orders',authGuard, authGuardClient, getAllOrdersById);
-
 router.put('/:clientId/image',authGuard, authGuardClient, updateClientImage);
-
 
 module.exports = router;

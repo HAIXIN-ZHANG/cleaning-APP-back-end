@@ -10,7 +10,9 @@ function authGuard(req, res, next) {
         return res.status(401).json('Invalid token format');
     }
 
+    console.log(contentArray[1]);
     const decoded = validateToken(contentArray[1]);
+    console.log(decoded);
     if(!decoded){
         return res.status(401).json('Access denied');
     }
@@ -30,7 +32,6 @@ function authGuardClient(req, res, next){
         return res.status(401).json('Operation denied');      
     }
     return next();
-
 }
 
 module.exports = { authGuard,authGuardTradie,authGuardClient };
