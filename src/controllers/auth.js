@@ -16,9 +16,13 @@ async function loginUser(req, res) {
     const token = generateToken({account: existingUser._id, role: existingUser.role});
 
     if (existingUser.role === 'client'){
-        return res.status(201).json({token, account, role: existingUser.role, clientId:existingUser.client._id});
+        return res.status(201).json(
+            {token, account, role: existingUser.role, clientId:existingUser.client._id}
+            );
     }
-    return res.status(201).json({token, account, role: existingUser.role, tradieId:existingUser.tradie._id});
+    return res.status(201).json(
+        {token, account, role: existingUser.role, tradieId:existingUser.tradie._id}
+        );
 }
 
 module.exports = {
