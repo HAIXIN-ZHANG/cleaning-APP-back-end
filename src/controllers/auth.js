@@ -14,7 +14,11 @@ async function loginUser(req, res) {
         return res.status(400).json('Invalid account or password2');
     }
     const token = generateToken({account: existingUser._id, role: existingUser.role});
-    return res.status(201).json({token, account});
+
+    if (existingUser.role === 'client'){
+        return res.status(201).json({token, account, role: existingUser.role, clientId:existingUser.client._id});
+    }
+    return res.status(201).json({token, account, role: existingUser.role, tradieId:existingUser.tradie._id});
 }
 
 module.exports = {
