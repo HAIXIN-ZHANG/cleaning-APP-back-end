@@ -25,8 +25,8 @@ async function getAllServices(req, res) {
 };
 
 async function getServicesByName(req, res) {
-  const{ tradieName } = req.query;
-  const tradies = await Tradie.findBy({ tradieName:tradieName }).populate('service').exec();
+  const{ name } = req.query;
+  const tradies = await Tradie.findOne({ tradieName:name }).populate('service').exec();
   if(!tradies) return res.status(400).json("tradie not found");
   const services = tradies.service;
   return res.status(200).json(services);
@@ -34,12 +34,12 @@ async function getServicesByName(req, res) {
 
 async function getServicesByCleanType(req, res) {
   const{type} = req.query;
-  if (type !== "Normal House Clean" || type !== "Move Out Clean" 
-  || type !== "Kitchen Clean",  type !== "Office Clean", type !== "Others") {
+  if (type !== "Normal House Clean" && type !== "Move Out Clean" 
+  && type !== "Kitchen Clean" && type !== "Office Clean" && type !== "Others") {
     return res.status(400).json('please input correct cleaning type');
   }
 
-  const services = await Service.findBy({type:type}).populate('tradies').exec();
+  const services = await Service.findOne({type:type}).populate('tradie').exec();
   if (!services) return res.status(400).json("No such type of services");
   return res.status(200).json(services);
 }
