@@ -33,13 +33,13 @@ async function addOrder(req, res) {
     const tradieId = service.tradie._id;
     const tradie = await Tradie.findById(tradieId).exec();
 
-      order.service = service._id;
-      order.tradie = tradieId;
-      order.client = client._id;
+    order.service = service._id;
+    order.tradie = tradieId;
+    order.client = client._id;
     await order.save();
 
     tradie.order.addToSet(order._id);
-     await tradie.save();
+    await tradie.save();
 
     client.order.addToSet(order._id);
     await client.save();
