@@ -37,7 +37,7 @@ async function getTradiebyID(req, res) {
 };
 
 async function getAllTradies(req, res) {
-    const tradies = await Tradie.find().populate('order').exec();
+    const tradies = await Tradie.find().exec();
     if (!tradies) return res.status(404).json('not found any tradie');
     return res.status(200).json(tradies);
 };

@@ -67,10 +67,15 @@ async function updateClientById(req, res) {
 
 async function getAllOrdersById(req, res) {
     const { clientId } = req.params;
-    const client = await Client.findById(clientId).populate('order').exec();
-    if (!client) return res.status(404).json('not a client')
-    const orders = client.order;
-    if (!orders) return res.status(404).json('this client does not have order now')
+
+    // const client = await Client.findById(clientId).populate('order').exec();
+    // if (!client) return res.status(404).json('not a client')
+    // const orders = client.order;
+    // if (!orders) return res.status(404).json('this client does not have order now')
+    // return res.status(200).json(orders);
+
+    const orders = await Order.find({ client: clientId }).populate('tradie').exec();
+    if (!orders) return res.status(404).json('not exist orders');
     return res.status(200).json(orders);
 };
 
