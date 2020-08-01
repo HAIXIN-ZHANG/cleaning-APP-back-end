@@ -6,7 +6,7 @@ const {
     updateClientById,
     getAllOrdersById,
     updateClientImage,
-} = require("../controllers/Clients");
+} = require("../controllers/clients");
 const router = express.Router();
 const { authGuard, authGuardClient } = require("../middleware/authGuard");
 
