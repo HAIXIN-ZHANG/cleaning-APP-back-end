@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'JR-P3-Back-End',
+      name: 'JR_P3_back-end',
       script: './src/index.js'
     }
   ]
