@@ -1,40 +1,32 @@
 {
-  "name": "JR_P3_back-end",
-  "version": "1.0.0",
-  "description": "JR P3 project back end develop",
-  "main": "index.js",
-  "scripts": {
-    "start": "pm2-runtime start config/ecosystem.config.js --env production",
-    "dev": "nodemon src/index.js",
-    "debug": "nodemon --inspect src/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jinzhih/JR_P3_back.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jinzhih/JR_P3_back/issues"
-  },
-  "homepage": "https://github.com/jinzhih/JR_P3_back#readme",
-  "dependencies": {
-    "@hapi/joi": "^17.1.1",
-    "aws-sdk": "^2.714.2",
-    "bcrypt": "^5.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "helmet": "^3.22.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.17",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "multer-s3": "^2.9.0",
-    "pm2": "^4.4.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  }
+	"name": "cleaning_app_back_end",
+	"version": "1.0.0",
+	"description": "cleaning app back end",
+	"main": "index.js",
+	"scripts": {
+		"start": "pm2-runtime start config/ecosystem.config.js --env production",
+		"dev": "nodemon src/index.js",
+		"debug": "nodemon --inspect src/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@hapi/joi": "^17.1.1",
+		"aws-sdk": "^2.714.2",
+		"bcrypt": "^5.0.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"helmet": "^3.22.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.17",
+		"morgan": "^1.10.0",
+		"multer": "^1.4.2",
+		"multer-s3": "^2.9.0",
+		"pm2": "^4.4.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
 }
