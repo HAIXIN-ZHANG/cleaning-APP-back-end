@@ -1,21 +1,21 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken')
 
 function generateToken({ account, role }) {
-    const token = jwt.sign({ account, role }, "secret", {
-      expiresIn: '1h'
-    });
-    return token;
-}
-  
-  function validateToken(token) {
-    let decoded;
-    try {
-      decoded = jwt.verify(token, "secret");
-    } catch (e) {
-      console.log(e)
-      return null;
-    }
-    return decoded;
+	const token = jwt.sign({ account, role }, 'secret', {
+		expiresIn: '1h',
+	})
+	return token
 }
 
-module.exports = { generateToken, validateToken };
+function validateToken(token) {
+	let decoded
+	try {
+		decoded = jwt.verify(token, 'secret')
+	} catch (e) {
+		console.log(e)
+		return null
+	}
+	return decoded
+}
+
+module.exports = { generateToken, validateToken }
